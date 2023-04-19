@@ -1,0 +1,42 @@
+<div class="xyz">
+
+  <h3>New Mobile</h3>
+  <app-brand-master (childEvent)="message=$event" (postBrand)="brName=$event" [brand]="brand" [dataName]="myName">
+  </app-brand-master>
+  <h1>{{message}}</h1>
+  <h1>{{brName}}</h1>
+  <form>
+    <div class="row">
+
+      <label for="brand">Brand</label>
+      <div class="form-group col">
+        <select class="form-control" id="brand">
+          <option *ngFor="let b of brands" value="{{b._id}}">{{b.name}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <button class="btn">Add New Brand</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="modelName" class="form-label">Model Name</label>
+      <input type="email" class="form-control" id="modelName" placeholder="14 Pro Max 128 GB">
+    </div>
+    <div class="form-group">
+      <label for="color" class="form-label">Color</label>
+      <input type="email" class="form-control" id="color" placeholder="Deep Purple">
+    </div>
+    <div class="form-group">
+      <label for="countryOfOrigin" class="form-label">Country of origin</label>
+      <input type="email" class="form-control" id="countryOfOrigin" placeholder="India">
+    </div>
+    <div class="form-group">
+      <label for="ASIN" class="form-label">Amazon ASIN</label>
+      <input type="email" class="form-control" id="ASIN" placeholder="B0BDHV1TZ4">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+
+</div>

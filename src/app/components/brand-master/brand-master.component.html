@@ -1,0 +1,16 @@
+<h4>Add New Brand</h4>
+<h6>
+  {{"Hello " + name}}
+</h6>
+
+<button (click)="fireEvent()">Send Event</button>
+
+<form #addBrandForm="ngForm" (ngSubmit)="onSubmit()" action="">
+  <div class="form-group">
+    <label for="name" class="form-label">Brand Name</label>
+    <input class="form-control" id="name">
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+  </div>
+</form>

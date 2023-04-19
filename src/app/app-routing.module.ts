@@ -1,7 +1,19 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ProductMasterComponent } from './components/product-master/product-master.component';
+import { PurchaseVoucherComponent } from './components/purchase-voucher/purchase-voucher.component';
+import { SalesVoucherComponent } from './components/sales-voucher/sales-voucher.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
-const routes: Routes = [];
+
+const routes: Routes = [
+  { path: '', component: DashboardComponent, pathMatch: 'full' },
+  { path: 'mobiles/new', component: ProductMasterComponent },
+  { path: 'voucher/purchases/new', component: PurchaseVoucherComponent },
+  { path: 'voucher/sales/new', component: SalesVoucherComponent },
+  { path: '**', component: PageNotFoundComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
