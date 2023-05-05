@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
+import { CustomerMasterComponent } from './components/customer-master/customer-master.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     PurchaseVoucherComponent,
     SalesVoucherComponent,
     DashboardComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ToastNotificationComponent,
+    CustomerMasterComponent
   ],
   imports: [
     BrowserModule,

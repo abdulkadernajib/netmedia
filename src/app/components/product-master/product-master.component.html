@@ -1,44 +1,86 @@
 <div class="container-fluid">
+  <p>mobile: {{mobile|json}}</p>
+  <p>NgForm: {{productMaster.value|json}}</p>
+  <div class="row">
+    <div class="col m12">
+      <h3>New Mobile</h3>
+      <app-toast-notification #toast></app-toast-notification>
 
-  <h3>New Mobile</h3>
-  <app-brand-master (childEvent)="message=$event" (postBrand)="brName=$event" [brand]="brand" [dataName]="myName">
-  </app-brand-master>
-  <h1>{{message}}</h1>
-  <h1>{{brName}}</h1>
-
-  {{productMaster.value|json}}
-  <form #productMaster="ngForm">
-    <div class="row">
-
-      <label for="brand">Brand</label>
-      <div class="form-group col">
-        <select class="form-control" id="brand" name="brand" ngModel>
-          <option *ngFor="let b of brands" value="{{b._id}}">{{b.name}}</option>
-        </select>
+      <form #productMaster="ngForm" (ngSubmit)="addModel(productMaster)">
+        <div class="row">
+          <label for="brand">Brand</label>
+          <div class="form-group col-9">
+            <select class="form-control" id="brand" name="brandName" [(ngModel)]="mobile.brandName">
+              <option value="">select a brand</option>
+              <option *ngFor="let b of brands" [ngValue]="{ _id: b._id, name: b.name }">{{b.name}}</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-light" (click)="showModal()"><i class="bi bi-plus-square"></i> Add
+              Brand</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="modelName" class="form-label">Model Name</label>
+          <input type="text" class="form-control" placeholder="14 Pro Max 128 GB" name="modelName"
+            [(ngModel)]="mobile.modelName">
+        </div>
+        <div class="form-group">
+          <label for="color" class="form-label">Color</label>
+          <input type="text" class="form-control" id="color" placeholder="Deep Purple" name="color"
+            [(ngModel)]="mobile.color">
+        </div>
+        <div class="form-group">
+          <label for="countryOfOrigin" class="form-label">Country of origin</label>
+          <input type="text" class="form-control" id="countryOfOrigin" placeholder="India" name="countryOfOrigin"
+            [(ngModel)]="mobile.countryOfOrigin">
+        </div>
+        <div class="form-group">
+          <label for="ASIN" class="form-label">Amazon ASIN</label>
+          <input type="text" class="form-control" id="asin" placeholder="B0BDHV1TZ4" name="asin"
+            [(ngModel)]="mobile.asin">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="col m12">
+      <table class="resposive-table">
+        <thead>
+          <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Color</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of mobiles">
+            <td>{{m.brandName.name}}</td>
+            <td>{{m.modelName}}</td>
+            <td>{{m.color}}</td>
+            <td><a (click)="onEdit(m)">
+                <i class="bi bi-pencil"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- popup modal -->
+<div class="modal" id="addBrand">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add New Brand</h4>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
       </div>
-      <div class="col">
-        <button class="btn">Add New Brand</button>
+      <div class="modal-body">
+        <app-brand-master (childEvent)="message=$event"> </app-brand-master>
       </div>
     </div>
-    <div class="form-group">
-      <label for="modelName" class="form-label">Model Name</label>
-      <input type="text" class="form-control" id="modelName" placeholder="14 Pro Max 128 GB" name="modelName" ngModel>
-    </div>
-    <div class="form-group">
-      <label for="color" class="form-label">Color</label>
-      <input type="text" class="form-control" id="color" placeholder="Deep Purple" name="color" ngModel>
-    </div>
-    <div class="form-group">
-      <label for="countryOfOrigin" class="form-label">Country of origin</label>
-      <input type="text" class="form-control" id="countryOfOrigin" placeholder="India" name="countryOfOrigin" ngModel>
-    </div>
-    <div class="form-group">
-      <label for="ASIN" class="form-label">Amazon ASIN</label>
-      <input type="text" class="form-control" id="ASIN" placeholder="B0BDHV1TZ4" name="asin" ngModel>
-    </div>
-    <div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </form>
-
+  </div>
 </div>

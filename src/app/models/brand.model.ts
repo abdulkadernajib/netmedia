@@ -1,4 +1,4 @@
 export class Brand {
-    _id: number;
+    _id: string;
     name: string;
 }

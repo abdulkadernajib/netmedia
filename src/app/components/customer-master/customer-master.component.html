@@ -1,0 +1,110 @@
+<div class="container">
+  <app-toast-notification #toast></app-toast-notification>
+  <h1>Debtors/Creditors Master</h1>
+  <p>{{customerMaster.value|json}}</p>
+  <p>{{customer|json}}</p>
+  <form #customerMaster="ngForm">
+    <div class="row">
+      <div class="col">
+        <div class="mb-3">
+          <label for="businessName" class="form-label">Business Name</label>
+          <input type="text" class="form-control" #businessName="ngModel" name="businessName"
+            [(ngModel)]="customer.businessName" required>
+          <div *ngIf="businessName.invalid && (businessName.dirty || businessName.touched)" class="alert alert-danger">
+            <div *ngIf="businessName.errors">
+              Required field.
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="gstType" class="form-label">Master Type</label>
+          <select class="form-control" name="masterType" [(ngModel)]="masterType" [ngModelOptions]="{standalone:true}">
+            <option value="Debtor">Debtor</option>
+            <option value="Creditor">Creditor</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="mb-3 col">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" name="phone" [(ngModel)]="customer.phone">
+          </div>
+          <div class="mb-3 col">
+            <label for="phone2" class="form-label">Alternate Phone Number</label>
+            <input type="text" class="form-control" name="phone2" [(ngModel)]="customer.phone2">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="contactPerson" class="form-label">Contact Person</label>
+          <input type="text" class="form-control" name="contactPerson" [(ngModel)]="customer.contactPerson">
+        </div>
+        <div ngModelGroup="address">
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" name="address" [(ngModel)]="customer.address.address">
+          </div>
+          <div class="row">
+            <div class="mb-3 col">
+              <label for="city" class="form-label">City</label>
+              <select class="form-control" name="city" [(ngModel)]="customer.address.city">
+                <option *ngFor="let c of cities" [ngValue]="c.name">{{c.name}}</option>
+              </select>
+            </div>
+            <div class="mb-3 col">
+              <label for="state" class="form-label">State</label>
+              <select class="form-control" name="state" [(ngModel)]="customer.address.state">
+                <option *ngFor="let s of states" [ngValue]="s.name">{{s.name}}</option>
+              </select>
+            </div>
+            <div class="mb-3 col">
+              <label for="pin" class="form-label">Pin</label>
+              <input type="text" class="form-control" name="pinCode" [(ngModel)]="customer.address.pinCode">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div ngModelGroup="bankDetails">
+          <div class="mb-3">
+            <label for="accountNo" class="form-label">Account Number</label>
+            <input type="text" class="form-control" name="accountNo" [(ngModel)]="customer.bankDetails.accountNo">
+          </div>
+          <div class="mb-3">
+            <label for="bankName" class="form-label">Bank Name</label>
+            <input type="text" class="form-control" name="bankName" [(ngModel)]="customer.bankDetails.bankName">
+          </div>
+          <div class="mb-3">
+            <label for="ifsc" class="form-label">IFSC</label>
+            <input type="text" class="form-control" name="ifsc" [(ngModel)]="customer.bankDetails.ifsc">
+          </div>
+          <div class="mb-3">
+            <label for="branchName" class="form-label">Branch Name</label>
+            <input type="text" class="form-control" name="branch" [(ngModel)]="customer.bankDetails.branch">
+          </div>
+        </div>
+        <div ngModelGroup="compliance">
+          <div class="row">
+            <div class="mb-3 col">
+              <label for="gstNo" class="form-label">GST Number</label>
+              <input type="text" class="form-control" name="gstNo" [(ngModel)]="customer.compliance.gstNo">
+            </div>
+            <div class="mb-3 col">
+              <label for="gstType" class="form-label">GST Type</label>
+              <select class="form-control" name="gstType" [(ngModel)]="customer.compliance.gstType">
+                <option value="Regular">Regular</option>
+                <option value="composition">Composition</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="panNo" class="form-label">PAN</label>
+            <input type="text" class="form-control" name="panNo" [(ngModel)]="customer.compliance.panNo">
+          </div>
+          <div class="form-group">
+            <button type="submit" (click)="addDebtor(customerMaster)" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

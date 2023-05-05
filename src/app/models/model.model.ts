@@ -1,8 +1,10 @@
+import { Brand } from "./brand.model";
+
 export class Model {
-    _id: number;
-    brandName: string;
+    _id: string;
+    brandName: Brand;
     modelName: string;
     color: string;
     countryOfOrigin: string;
-    ASIN: string
+    asin: string
 }
