@@ -13,41 +13,14 @@ declare var $: any;
 })
 export class BrandMasterComponent {
 
-  @Input('brandToast') toastMessage: string;
-  @Output() childEvent = new EventEmitter();
-  @Output() clickSubmit = new EventEmitter();
+
+  @Output() addBrandEvent = new EventEmitter();
   name: string = '';
-
-  @ViewChild('toast') toast: ToastNotificationComponent;
-
-  showToast() {
-    this.toast.showToast(this.toastMessage);
-    this.clickSubmit.emit();
-  }
-
-
-
-
-
-
 
   constructor(private productService: ProductService) { }
   onSubmit(form: NgForm) {
-    this.productService.addBrand(form.value).subscribe()
+    this.addBrandEvent.emit(form)
   }
-  // onSubmit(form: NgForm) {
-  //   this.postBrand.emit(this.productService.addBrand(form.value))
-  // }
-  // this.productService.addBrand(brand)
-
-  showModal() {
-    $('#addBrand').modal('show');
-  }
-
-  hideModal() {
-    $('#addBrand').modal('hide');
-  }
-
 
 }
 

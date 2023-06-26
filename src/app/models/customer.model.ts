@@ -1,28 +1,31 @@
 export class Customer {
 
-    businessName: String;
-    contactPerson: String;
-    phone: String;
-    phone2: String;
-    email: String;
+    _id?: string
+    businessName: string;
+    contactPerson: string;
+    phone: string;
+    phone2: string;
+    email: string;
     address: {
-        address: String;
-        city: String;
-        state: String;
-        pinCode: Number
+        address: string;
+        city: string;
+        state: string;
+        pinCode: number
     };
     compliance: {
-        gstNo: String;
-        gstType: String;
-        panNo: String;
+        gstNo: string;
+        gstType: string;
+        panNo: string;
     };
     bankDetails: {
-        accountNo: Number;
-        bankName: String;
-        ifsc: String;
-        branch: String;
+        accountNo: number;
+        bankName: string;
+        ifsc: string;
+        branch: string;
     };
     closingBalance: number = null
+    createdOn?: string;
+    updatedOn?: string;
 
 
 }

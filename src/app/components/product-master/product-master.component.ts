@@ -16,21 +16,21 @@ import { ToastNotificationComponent } from '../toast-notification/toast-notifica
 export class ProductMasterComponent {
 
   brands: Brand[] = [];
-  brand: string;
   newBrand: string = '';
-  message = "";
-  brName = "";
-  mobile = {
+  mobile: Model = {
     _id: '',
-    brandName: { _id: '', name: '' },
+    brandName: { _id: '', name: 'select a brand' },
     modelName: '',
     color: '',
     countryOfOrigin: '',
-    asin: ''
+    asin: '',
+    closingStock: null,
+    sellingPrice: null,
+    createdOn: '',
+    lastUpdated: ''
   }
   mobiles: Model[] = [];
-  brandToast: string = 'Brand name has been added';
-  productToast: string = 'Product added successfully.';
+
   myModal = document.getElementById('myModal')
   myInput = document.getElementById('myInput')
 
@@ -40,10 +40,6 @@ export class ProductMasterComponent {
 
 
 
-
-  showToast() {
-    this.toast.showToast(this.productToast);
-  }
 
   showModal() {
     // this.addBrand.showModal()
@@ -73,31 +69,23 @@ export class ProductMasterComponent {
   getBrandsList() {
     this.productService.getBrands().subscribe(result => {
       this.brands = result;
-      console.log(this.brands)
     });
-
   }
 
   addModel(productMaster: NgForm) {
     this.productService.createModel(productMaster.value).subscribe((res) => {
-      console.log(res)
+      this.toast.showToast(res.toString());
     })
-    this.toast.showToast(this.productToast);
   }
 
-  onSubmitBrandMaster() {
-    this.toast.showToast(this.brandToast);
-    this.sleep(2000)
-    window.location.reload();
-  }
 
-  sleep(ms) {
-    return new Promise(res => setTimeout(res, ms));
+  addNewBrand(brandName) {
+    this.productService.addBrand(brandName.value).subscribe(res => {
+      this.toast.showToast(res.toString());
+      brandName.reset();
+    });
+    this.getBrandsList();
   }
-
-  // addNewBrand(){
-  //   this.brandMaster.postBrand()
-  // }
 
   // mobileList() {
   //   this.productService.getMobileList().subscribe(res => {
@@ -122,15 +110,20 @@ export class ProductMasterComponent {
     this.mobile = mobile
   }
 
+  updateMobile(form: NgForm) {
+    var _id = this.mobile._id;
+    this.productService.updateMobile(form.value, _id).subscribe(res => {
+      form.reset();
+      this.toast.showToast(res.toString());
+    });
+  }
 
-  //Example from EmployeDatabase
-  // onSubmit(form: NgForm) { 
-  //   if (form.value._id === "") {
-  //     this.employeeService.postEmployee(form.value).subscribe((res) => {
-  //       this.resetForm();
-  //       this.refreshEmployeeList();
-  //       // M.toast({ html: 'Saved Successfully', classes: 'rounded' })
-  //     })
-  //   }
+  deleteMobile(_id) {
+    this.productService.deleteMobile(_id).subscribe(res => {
+      this.toast.showToast(res.toString());
+    });
+    this.mobiles = this.mobiles.filter(m => m._id !== _id);
+  }
+
 
 }

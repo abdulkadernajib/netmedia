@@ -1,1 +1,152 @@
-<p>sales-voucher works!</p>
+<form [formGroup]="SalesInvoiceForm" #salesForm (ngSubmit)="savePurchase(salesForm)" class="container">
+    
+    <div class="card">
+        <h3>{{pageTitle}}</h3>
+        <div class="card-body">
+        <app-toast-notification #toast></app-toast-notification>
+  
+      <p>
+    {{SalesInvoiceForm.value|json}}
+      </p>
+  
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="voucherNo" class="form-label">Voucher No</label><span class="text-danger">*</span>
+                <input formControlName="voucherNo" type="text" class="form-control">            
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="invoiceNo" class="form-label">Invoice No</label>          
+                <input formControlName="invoiceNo" type="text" class="form-control">          
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="date" class="form-label">Date</label>          
+                <input formControlName="date" type="date" class="form-control">          
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="creditorName" class="form-label">Party Name</label>          
+              <select formControlName="debtorName" type="text" class="form-select" (change)="onSelectDebtor()">
+                <option value="{{d._id}}" *ngFor="let d of masterDebtor">{{d.businessName}}</option>
+              </select>
+          </div>
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <label for="address" class="form-label">Billing Address</label>          
+                <textarea formControlName="address" type="text" class="form-control"></textarea>          
+            </div>
+            <div class="form-group col-lg-6">
+              <label for="deliveryAddress" class="form-label">Delivery Address</label>          
+                <textarea formControlName="address" type="text" class="form-control"></textarea>          
+            </div>
+          </div> 
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="phone" class="form-label">Phone</label>          
+                <input formControlName="phone" type="text" class="form-control">          
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="phone2" class="form-label">Phone 2</label>          
+                <input formControlName="phone2" type="text" class="form-control">          
+            </div>
+          </div>      
+        </div>
+      </div>
+      
+  
+      
+  
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table table-bordered" formArrayName="details">
+            <thead>
+              <tr>
+                <td>Sr No.</td>
+                <td>Brand</td>
+                <td>Product</td>
+                <td>IMEI</td>             
+                <td>Price</td>
+                <td>Action</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of invProducts.controls;let i = index" [formGroupName]="i">
+                <td>{{i + 1}}</td>
+                <td>
+                  <select formControlName="brandName" (change)="brandChange(i)" class="form-select">
+                    <option *ngFor="let b of masterBrand" [ngValue]="b.name" >{{b.name}}</option>
+                  </select>
+                </td>
+                <td>
+                  <select  formControlName="product" (change)="onProductSelect(i)" class="form-select">
+                    <option value="">select a model</option>
+                    <option *ngFor="let p of masterProduct[i]" [ngValue]="p._id" >{{p.modelName}}</option>
+                  </select>
+                </td>
+                <td>
+                  <select  formControlName="imei"  class="form-select">
+                    <option value="">select imei</option>
+                    <option *ngFor="let e of masterImei[i]" [ngValue]="e._id" >{{e.imeiNumber}}</option>
+                  </select>
+                </td>
+                <td><input (change)="priceChange()"  formControlName="amount" type="number" class="form-control"></td>
+                <td><i (click)="deleteRow(i)" class="bi bi-trash"></i></td>
+              </tr>
+  
+            </tbody>
+            <tfoot>
+              <tr>
+                <td><a (click)="addProduct()" class="btn btn-success"><i class="bi bi-plus-lg"></i></a></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group"><label for="" class="form-label">Summary Total</label>
+            <input type="text" class="form-control" formControlName="total">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group"><label for="" class="form-label">GST</label>
+            <input type="text" class="form-control" formControlName="gst">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group"><label for="" class="form-label">Summary Net Total</label>
+            <input type="text" class="form-control" formControlName="netTotal">
+          </div>
+        </div>
+      </div>
+  
+      
+        <div class="col-lg-12">
+          <button class="btn btn-success">Save</button>
+        </div>
+      
+  
+    </div>
+  </div>
+  </form>
+  
+  
+  
+  <!-- <h3>Purchase Entry</h3>
+  <form action="">
+    <div class="form-group">
+      <label for="invNo" class="form-label">Inv No.</label>
+      <input class="form-control" id="invNo">
+    </div>
+    <div class="form-group">
+      <label for="purchaseId" class="form-label">Purchase Id</label>
+      <input class="form-control" id="purchaseId">
+    </div>
+    <div class="form-group">
+      <label for="partyName" class="form-label">Party Name</label>
+      <input class="form-control" id="Party Name">
+    </div>
+  </form> -->
+  

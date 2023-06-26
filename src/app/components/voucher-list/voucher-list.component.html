@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-11"><p><strong>{{listType|titlecase}}</strong></p></div>
+    <div class="col-1"><button class="btn btn-primary" routerLink="/masters/{{listType}}/new"><i class="bi bi-plus-square"></i></button></div>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Vch No</th>
+                <th>Inv No</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inv of invoices">
+                <td>{{inv.voucherNo}} </td>
+                <td>{{inv.invoiceNo}} </td>
+                <td>{{inv.date}} </td>
+                <td>{{inv.debtorName}} </td>
+                <td>{{inv.netTotal}} </td>
+                <td><a (click)="onEdit(inv)"><i class="bi bi-pencil-square"></i></a></td>
+                <td><a  (click)="onDelete(inv._id)"><i class="bi bi-trash"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

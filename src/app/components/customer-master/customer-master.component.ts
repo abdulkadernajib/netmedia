@@ -1,8 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Customer } from 'src/app/models/customer.model';
 import { VoucherService } from 'src/app/services/voucher.service';
-import { ToastNotificationComponent } from '../toast-notification/toast-notification.component';
 
 @Component({
   selector: 'app-customer-master',
@@ -10,38 +9,16 @@ import { ToastNotificationComponent } from '../toast-notification/toast-notifica
   styleUrls: ['./customer-master.component.scss']
 })
 export class CustomerMasterComponent {
+  @Input() masterType: string;
+  @Input() customer: Customer;
+  @Input() states;
+  @Input() cities;
 
-  customer: Customer = {
-    businessName: '',
-    phone: '',
-    phone2: '',
-    email: '',
-    contactPerson: '',
-    address: {
-      address: '',
-      city: '',
-      state: '',
-      pinCode: null,
-    },
-    bankDetails: {
-      accountNo: null,
-      bankName: '',
-      ifsc: '',
-      branch: ''
-    },
-    compliance: {
-      gstNo: '',
-      gstType: '',
-      panNo: ''
-    },
-    closingBalance: null
-  }
-  cities: any[] = [];
-  states: any[] = [];
-  masterType: String;
-  toastMessage;
+  format: string = 'dd MMM, y | h:mm a'
 
-  @ViewChild('toast') toast: ToastNotificationComponent;
+  @Output() submitForm = new EventEmitter();
+  @Output() updateEvent = new EventEmitter();
+  @Output() cancelUpdateEvent = new EventEmitter();
 
 
   constructor(private voucherService: VoucherService) {
@@ -49,15 +26,31 @@ export class CustomerMasterComponent {
   }
 
   ngOnInit() {
-    this.voucherService.getCities().subscribe(res => this.cities = res);
-    this.voucherService.getStates().subscribe(res => this.states = res);
-
-
+    this.getStates()
   }
 
-  addDebtor(debtor: NgForm) {
-    this.voucherService.addDebtor(debtor.value).subscribe(res => { });
-    this.toast.showToast('Debtor added successfully')
+  getStates() {
+    this.voucherService.getStates().subscribe(res => this.states = res);
+  }
+
+  onStateSelect() {
+    var state = this.customer.address.state;
+
+    if (state) {
+      this.voucherService.getCities(state).subscribe(res => this.cities = res);
+    }
+  }
+
+  onSubmit(form: NgForm) {
+    this.submitForm.emit(form)
+  }
+
+  onUpdate(form: NgForm) {
+    this.updateEvent.emit(form);
+  }
+
+  cancelUpdate() {
+    this.cancelUpdateEvent.emit();
   }
 
 }

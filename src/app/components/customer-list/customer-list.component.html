@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-11"><p><strong>{{listType|titlecase}}</strong></p></div>
+    <div class="col-1"><button class="btn btn-primary" routerLink="/masters/{{listType}}/new"><i class="bi bi-plus-square"></i></button></div>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of parties">
+                <td>{{p.businessName}} </td>
+                <td>{{p.address.address}} </td>
+                <td>{{p.address.city}}</td>
+                <td><a (click)="onEdit(p)"><i class="bi bi-pencil-square"></i></a></td>
+                <td><a  (click)="onDelete(p._id)" ><i class="bi bi-trash"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

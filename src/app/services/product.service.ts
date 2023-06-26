@@ -15,7 +15,7 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   public getBrands(): Observable<any> {
-    return this.http.get(this.brandUrl);
+    return this.http.get(this.brandUrl + '/all');
 
   }
 
@@ -28,13 +28,27 @@ export class ProductService {
   }
 
   public getMobileList(): Observable<any> {
-    return this.http.get(this.modelUrl);
+    return this.http.get(this.modelUrl + '/all');
   }
 
-  public updaeMobile(model: Model) {
-    return this.http.put(this.modelUrl + `$(model._id)`, model)
+  public updateMobile(model: Model, _id: string) {
+    return this.http.put(this.modelUrl + `/${_id}`, model)
   }
-  public getMobileById() {
 
+  public getMobileById(Id: any): Observable<any> {
+    return this.http.get(this.modelUrl + `/${Id}`)
   }
+
+  public getMobileByBrand(brandName: any): Observable<any> {
+    return this.http.get(this.modelUrl + `/brand/${brandName}`)
+  }
+
+  public getImeiList(modelId: any): Observable<any> {
+    return this.http.get('/api/imei/' + modelId);
+  }
+
+  public deleteMobile(_id: string) {
+    return this.http.delete(this.modelUrl + '/' + _id)
+  }
+
 }

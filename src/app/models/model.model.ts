@@ -6,5 +6,12 @@ export class Model {
     modelName: string;
     color: string;
     countryOfOrigin: string;
-    asin: string
+    asin: string;
+    imei?: [string];
+    closingStock: number;
+    sellingPrice: number;
+    createdOn?: string;
+    lastUpdated?: string;
+
+
 }
