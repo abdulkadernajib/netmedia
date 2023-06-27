@@ -2,15 +2,17 @@ import { Model } from 'src/app/models/model.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { environment } from 'src/environments/environment';
 import { Brand } from '../models/brand.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private brandUrl = "/api/brands";
-  private modelUrl = "/api/mobile";
+  apiUrl = environment.apiUrl;
+
+  private brandUrl = this.apiUrl + "/api/brands";
+  private modelUrl = this.apiUrl + "/api/mobile";
 
   constructor(private http: HttpClient) { }
 

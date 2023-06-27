@@ -8,11 +8,12 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class VoucherService {
+  apiUrl = environment.apiUrl;
 
-  private debtorUrl = '/api/debtor'
-  private creditorUrl = '/api/creditor'
-  private purchaseUrl = '/api/purchase'
-  private salesUrl = '/api/sales'
+  private debtorUrl = this.apiUrl + '/api/debtor'
+  private creditorUrl = this.apiUrl + '/api/creditor'
+  private purchaseUrl = this.apiUrl + '/api/purchase'
+  private salesUrl = this.apiUrl + '/api/sales'
 
 
   constructor(private http: HttpClient) { }
@@ -42,6 +43,7 @@ export class VoucherService {
 
   public getDebtor(): Observable<any> {
     return this.http.get(`${this.debtorUrl}/all`);
+
   }
   public getCreditor(): Observable<any> {
     return this.http.get(`${this.creditorUrl}/all`);
