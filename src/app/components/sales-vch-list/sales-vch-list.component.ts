@@ -5,7 +5,7 @@ import { VoucherService } from 'src/app/services/voucher.service';
   selector: 'app-sales-vch-list',
   template: `
   <div class="container">
-    <app-voucher-list [invoices]="invoices"]></app-voucher-list>
+    <app-voucher-list [invoices]="invoices" [listType]="listType"></app-voucher-list>
   </div>
   `,
   styles: [
@@ -15,7 +15,8 @@ export class SalesVchListComponent {
   invoices;
   listType: string = 'sales'
 
-  constructor(public voucherService: VoucherService) { }
+  constructor(public voucherService: VoucherService) {
+  }
 
   ngOnInit() {
     this.getSalesList()
@@ -23,7 +24,9 @@ export class SalesVchListComponent {
 
   getSalesList() {
     this.voucherService.getSales().subscribe(res => {
+      console.log(res);
       this.invoices = res
+
     })
 
   }

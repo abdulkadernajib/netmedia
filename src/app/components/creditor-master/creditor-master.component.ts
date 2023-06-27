@@ -47,9 +47,7 @@ export class CreditorMasterComponent {
     closingBalance: null
   }
 
-  constructor(private voucherService: VoucherService) {
-
-  }
+  constructor(private voucherService: VoucherService) { }
 
   ngOnInit() {
   }

@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Customer } from '../models/customer.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,6 @@ export class VoucherService {
   private creditorUrl = '/api/creditor'
   private purchaseUrl = '/api/purchase'
   private salesUrl = '/api/sales'
-
 
 
   constructor(private http: HttpClient) { }

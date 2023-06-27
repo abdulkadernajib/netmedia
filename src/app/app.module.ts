@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { VoucherListComponent } from './components/voucher-list/voucher-list.component';
 import { SalesVchListComponent } from './components/sales-vch-list/sales-vch-list.component';
 import { PurchasesVchListComponent } from './components/purchases-vch-list/purchases-vch-list.component'
+import { VoucherService } from './services/voucher.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { PurchasesVchListComponent } from './components/purchases-vch-list/purch
     BrowserAnimationsModule,
     MatSlideToggleModule
   ],
-  providers: [ProductService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
