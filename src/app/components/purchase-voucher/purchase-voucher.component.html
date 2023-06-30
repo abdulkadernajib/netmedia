@@ -1,14 +1,10 @@
 <form [formGroup]="PurchaseInvoiceForm" #purchaseForm (ngSubmit)="savePurchase(purchaseForm)" class="container">
   
-  <div class="card">
-    <h3>{{pageTitle}}</h3>
-    <div class="card-body">
+  
+    <h2>{{pageTitle}}</h2>
+    <hr>
+  
     <app-toast-notification #toast></app-toast-notification>
-
-    <p>
-  {{PurchaseInvoiceForm.value|json}}
-    </p>
-
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
@@ -26,8 +22,8 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="creditorName" class="form-label">Party Name</label>          
-            <select formControlName="creditorName" type="text" class="form-select" (change)="onSelectCreditor()">
+          <label for="creditor" class="form-label">Party Name</label>          
+            <select formControlName="creditor" type="text" class="form-select" (change)="onSelectCreditor()">
               <option value="{{c._id}}" *ngFor="let c of masterCreditor">{{c.businessName}}</option>
             </select>
         </div>        
@@ -47,19 +43,17 @@
         </div>      
       </div>
     </div>
-    
-
-    
-
+    <hr>
     <div class="row">
       <div class="col-lg-12">
-        <table class="table table-bordered" formArrayName="details">
+        <table class="table" formArrayName="details">
           <thead>
             <tr>
               <td>Sr No.</td>
               <td>Brand</td>
               <td>Product</td>
-              <td>IMEI</td>             
+              <td>IMEI</td>            
+              <td>GST %</td>             
               <td>Price</td>
               <td>Action</td>
             </tr>
@@ -73,12 +67,18 @@
                 </select>
               </td>
               <td>
-                <select  formControlName="product"  class="form-select">
-                  <option *ngFor="let p of masterProduct[i]" [ngValue]="p._id" >{{p.modelName}}</option>
-                </select>
+                <div class="row">
+                    <select  (change)="onSelectProduct(i)" formControlName="product"  class="form-select">
+                      <option *ngFor="let p of masterProduct[i]" [ngValue]="p._id" >{{p.modelName}}</option>
+                    </select>
+                  </div>
+                  <div class="row">
+                    <p *ngIf="hsn[i]">HSN: {{hsn[i]}} </p>
+                  </div>
               </td>
               <td><input  formControlName="imei" type="text" class="form-control"></td>
-              <td><input (change)="priceChange()"  formControlName="cost" type="number" class="form-control"></td>
+              <td><input (change)="priceChange()"  formControlName="gst" type="number" class="form-control"></td>
+              <td><input (change)="priceChange()"  formControlName="amount" type="number" class="form-control"></td>
               <td><i (click)="deleteRow(i)" class="bi bi-trash"></i></td>
             </tr>
 
@@ -98,9 +98,25 @@
           <input type="text" class="form-control" formControlName="total">
         </div>
       </div>
-      <div class="col-lg-4">
-        <div class="form-group"><label for="" class="form-label">GST</label>
-          <input type="text" class="form-control" formControlName="gst">
+      
+      <div class="col-lg-4">  
+      <div class="form-group">
+        <div  *ngIf="isIntraState;else interState" class="row">
+          <div class="col-lg-6">
+          <label for="cgst" class="form-label">CGST</label>
+          <input type="text" class="form-control" formControlName="cgst">
+          </div>
+        <div class="col-lg-6">
+          <label for="sgst" class="form-label">SGST</label>
+          <input type="text" class="form-control" formControlName="sgst">
+          </div>
+        </div>
+        <ng-template #interState>
+            <div class="col-lg-12">
+              <label for="igst" class="form-label">IGST</label>
+              <input type="text" class="form-control" formControlName="igst">
+            </div>
+          </ng-template>
         </div>
       </div>
       <div class="col-lg-4">
@@ -109,15 +125,9 @@
         </div>
       </div>
     </div>
-
-    
       <div class="col-lg-12">
-        <button class="btn btn-success">Save</button>
+        <button class="btn btn-primary">Save</button>
       </div>
-    
-
-  </div>
-</div>
 </form>
 
 

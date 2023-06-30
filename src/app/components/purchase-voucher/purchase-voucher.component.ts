@@ -11,12 +11,15 @@ import { ToastNotificationComponent } from '../toast-notification/toast-notifica
   styleUrls: ['./purchase-voucher.component.scss']
 })
 export class PurchaseVoucherComponent {
-  pageTitle = 'Invoice'
+  pageTitle = 'Purchases Invoice'
   invoiceDetails: FormArray<any>;
   invoiceProducts: FormGroup<any>;
   masterCreditor: any;
   masterBrand: any
   masterProduct: any = []
+  isIntraState: boolean = true
+  hsn: any = []
+  isDisabled = true
 
   @ViewChild('toast') toast: ToastNotificationComponent;
 
@@ -31,6 +34,8 @@ export class PurchaseVoucherComponent {
   ngOnInit() {
     this.getCreditors();
     this.getBrands();
+    this.addProduct();
+    this.purchaseRefNo();
 
   }
   getCreditors() {
@@ -45,27 +50,41 @@ export class PurchaseVoucherComponent {
     })
   }
 
+  purchaseRefNo() {
+    this.voucherService.purchaseRefNo().subscribe(res => {
+      this.PurchaseInvoiceForm.get('voucherNo').setValue(res)
+    })
+  }
+
   PurchaseInvoiceForm = this.builder.group({
     invoiceNo: this.builder.control('', Validators.required),
-    voucherNo: this.builder.control('135', Validators.required),
+    voucherNo: this.builder.control('', Validators.required),
     date: this.builder.control('', Validators.required),
-    creditorName: this.builder.control('Flipkart', Validators.required),
+    creditor: this.builder.control('Flipkart', Validators.required),
     address: this.builder.control(''),
     phone: this.builder.control(''),
     phone2: this.builder.control(''),
-    total: this.builder.control({ value: 0, disabled: true }),
-    gst: this.builder.control({ value: 0, disabled: true }),
-    netTotal: this.builder.control({ value: 0, disabled: true }),
+    total: this.builder.control(0),
+    isIntraState: this.builder.control(true, Validators.required),
+    cgst: this.builder.control(0),
+    sgst: this.builder.control(0),
+    igst: this.builder.control(0),
+    netTotal: this.builder.control(0),
     details: this.builder.array([]),
   })
 
+
   onSelectCreditor() {
-    const _id = this.PurchaseInvoiceForm.get("creditorName").value
+    const _id = this.PurchaseInvoiceForm.get("creditor").value
     if (_id) {
       this.voucherService.getCreditorByID(_id).subscribe(c => {
         this.PurchaseInvoiceForm.get("address").setValue(`${c.address.address}, ${c.address.city}, ${c.address.pinCode}`)
         this.PurchaseInvoiceForm.get("phone").setValue(c.phone)
         this.PurchaseInvoiceForm.get("phone2").setValue(c.phone2)
+        if (c.address.state !== 'Maharashtra') {
+          this.PurchaseInvoiceForm.get("isIntraState").setValue(false)
+          this.isIntraState = false
+        }
       });
     }
   }
@@ -73,17 +92,24 @@ export class PurchaseVoucherComponent {
   invoiceCalculations() {
     let array = this.PurchaseInvoiceForm.getRawValue().details
     let sumTotal: number = 0
+    let sumTax: number = 0
     array.forEach((e: any) => {
-      sumTotal += e.cost
+      sumTotal += e.amount
+      sumTax += e.amount * e.gst / 100
     });
 
-    let sumTax = sumTotal * 0.18
     let netTotal = sumTotal + sumTax;
     let tx = sumTax.toFixed(2)
 
     this.PurchaseInvoiceForm.get('total').setValue(sumTotal);
-    this.PurchaseInvoiceForm.get('gst').setValue(parseFloat(tx));
     this.PurchaseInvoiceForm.get('netTotal').setValue(netTotal);
+
+    if (this.isIntraState) {
+      this.PurchaseInvoiceForm.get('cgst').setValue(parseFloat(tx) / 2);
+      this.PurchaseInvoiceForm.get('sgst').setValue(parseFloat(tx) / 2);
+    } else {
+      this.PurchaseInvoiceForm.get('igst').setValue(parseFloat(tx));
+    }
   }
 
   brandChange(index: any) {
@@ -96,12 +122,26 @@ export class PurchaseVoucherComponent {
     })
   }
 
+  onSelectProduct(index: any) {
+    this.invoiceDetails = this.PurchaseInvoiceForm.get('details') as FormArray
+    this.invoiceProducts = this.invoiceDetails.at(index) as FormGroup
+    const model = this.invoiceProducts.get('product').value
+    this.productService.getMobileById(model).subscribe(res => {
+      let product = res.mobile
+      this.hsn[index] = product.hsn
+      this.invoiceProducts.get('gst').setValue(product.gstRate)
+
+    })
+
+  }
+
   generateRow() {
     return this.builder.group({
       brandName: this.builder.control('', Validators.required),
       product: this.builder.control('', Validators.required),
       imei: this.builder.control(''),
-      cost: this.builder.control(0),
+      amount: this.builder.control(0),
+      gst: this.builder.control(0),
 
     });
   }
@@ -121,6 +161,10 @@ export class PurchaseVoucherComponent {
       this.toast.showToast(res.toString())
     })
     form.reset()
+    this.purchaseRefNo()
+    this.invProducts.clear()
+    this.addProduct()
+
   }
 
   get invProducts() {

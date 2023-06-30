@@ -24,11 +24,13 @@ export class ProductMasterComponent {
     color: '',
     countryOfOrigin: '',
     asin: '',
-    closingStock: null,
+    gstRate: null,
+    hsn: '',
     sellingPrice: null,
-    createdOn: '',
-    lastUpdated: ''
+    createdAt: '',
+    updatedAt: ''
   }
+  format: string = 'dd MMM, y | h:mm a'
   mobiles: Model[] = [];
 
   myModal = document.getElementById('myModal')
@@ -75,7 +77,21 @@ export class ProductMasterComponent {
   addModel(productMaster: NgForm) {
     this.productService.createModel(productMaster.value).subscribe((res) => {
       this.toast.showToast(res.toString());
+      this.mobileList()
     })
+    productMaster.reset()
+    this.mobile.brandName = { _id: '', name: 'select a brand' }
+  }
+
+  updateMobile(form: NgForm) {
+    var _id = this.mobile._id;
+    this.productService.updateMobile(form.value, _id).subscribe(res => {
+      this.toast.showToast(res.toString());
+      this.mobileList()
+    });
+    form.reset();
+    this.mobile.brandName = { _id: '', name: 'select a brand' }
+    this.mobile._id = ''
   }
 
 
@@ -110,19 +126,12 @@ export class ProductMasterComponent {
     this.mobile = mobile
   }
 
-  updateMobile(form: NgForm) {
-    var _id = this.mobile._id;
-    this.productService.updateMobile(form.value, _id).subscribe(res => {
-      form.reset();
-      this.toast.showToast(res.toString());
-    });
-  }
-
   deleteMobile(_id) {
     this.productService.deleteMobile(_id).subscribe(res => {
+      alert(`you're attempting to delete a product (_id: ${_id})`)
       this.toast.showToast(res.toString());
+      this.mobiles = this.mobiles.filter(m => m._id !== _id);
     });
-    this.mobiles = this.mobiles.filter(m => m._id !== _id);
   }
 
 

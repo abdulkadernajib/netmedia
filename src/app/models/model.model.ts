@@ -1,17 +1,17 @@
 import { Brand } from "./brand.model";
 
 export class Model {
-    _id: string;
+    _id?: string;
     brandName: Brand;
     modelName: string;
     color: string;
     countryOfOrigin: string;
     asin: string;
-    imei?: [string];
-    closingStock: number;
+    gstRate: number;
+    hsn: string;
     sellingPrice: number;
-    createdOn?: string;
-    lastUpdated?: string;
+    createdAt?: string;
+    updatedAt?: string;
 
 
 }

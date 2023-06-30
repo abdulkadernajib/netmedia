@@ -12,7 +12,7 @@ import { ToastNotificationComponent } from '../toast-notification/toast-notifica
 })
 export class SalesVoucherComponent {
 
-  pageTitle = 'Invoice'
+  pageTitle = 'Sales Invoice'
   invoiceDetails: FormArray<any>;
   invoiceProducts: FormGroup<any>;
   masterDebtor: any;

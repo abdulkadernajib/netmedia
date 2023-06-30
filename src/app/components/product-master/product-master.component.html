@@ -3,14 +3,14 @@
     <div class="col m12">
       <h3>New Mobile</h3>
       <app-toast-notification #toast></app-toast-notification>
-
+<p>{{productMaster.value|json}} </p>
       <form #productMaster="ngForm">
         <div class="row">
           <label for="brand">Brand</label>
           <div class="form-group mb-3 col-9">
             <!-- autocomplete -->
             <select class="form-select"  name="brandName" [(ngModel)]="mobile.brandName">
-              <option value="{{mobile.brandName}}" selected>{{mobile.brandName.name}}</option>
+              <option value="{{mobile.brandName}}">{{mobile.brandName.name}}</option>
               <option *ngFor="let b of brands" [ngValue]="{ _id: b._id, name: b.name }">{{b.name}}</option>
             </select>
           </div>
@@ -34,33 +34,38 @@
           <input type="text" class="form-control" id="countryOfOrigin" placeholder="India" name="countryOfOrigin"
             [(ngModel)]="mobile.countryOfOrigin">
         </div>
-        <div class="form-group mb-3">
-          <label for="ASIN" class="form-label">Amazon ASIN</label>
-          <input type="text" class="form-control" id="asin" placeholder="B0BDHV1TZ4" name="asin" [(ngModel)]="mobile.asin">
-        </div>
-        <div class="form-group mb-3">
-          <label for="closingStock " class="form-label">Closing Stock</label>
-          <input type="number" class="form-control"  name="closingStock" [(ngModel)]="mobile.closingStock">
+        <div class="row">
+          <div class="form-group mb-3 col">
+            <label for="gstRate" class="form-label">GST Rate(%)</label>
+            <input type="number" class="form-control" id="gstRate" placeholder="18" name="gstRate" [(ngModel)]="mobile.gstRate">
+          </div>
+          <div class="form-group mb-3 col">
+            <label for="hsn" class="form-label">HSN</label>
+            <input type="number" class="form-control" id="hsn" placeholder="8517" name="hsn" [(ngModel)]="mobile.hsn">
+          </div>
+          <div class="form-group mb-3 col">
+            <label for="ASIN" class="form-label">Amazon ASIN</label>
+            <input type="text" class="form-control" id="asin" placeholder="B0BDHV1TZ4" name="asin" [(ngModel)]="mobile.asin">
+          </div>
         </div>
         <div class="form-group mb-3">
           <label for="sellingPrice" class="form-label">Selling Price</label>
           <input type="number" class="form-control" name="sellingPrice" [(ngModel)]="mobile.sellingPrice">
         </div>
-
-        <div class="form-group mb-3" *ngIf="!mobile._id">
+        <div class="form-group mb-3" *ngIf="!mobile._id else updateModel">
           <button type="submit" class="btn btn-primary" (click)="addModel(productMaster)">Submit</button>
         </div>
-        <div *ngIf="mobile._id">
+        <ng-template #updateModel>
           <div class="form-group mb-3">
             <div class="form-group mb-3">
-              <p>Created on: <strong>{{mobile.createdOn}}</strong></p>
-              <p>Last updated on: <strong>{{mobile.lastUpdated}}</strong></p>
+              <p>Created on: <strong>{{mobile.createdAt |date:format}}</strong></p>
+              <p>Updated on: <strong>{{mobile.updatedAt|date:format}}</strong></p>
               <div class="form-group mb-3" >
                 <button type="submit" class="btn btn-primary" (click)="updateMobile(productMaster)">Update</button>
               </div>              
             </div>
           </div>
-        </div>
+        </ng-template>
         
       </form>
     </div>

@@ -76,4 +76,11 @@ export class VoucherService {
   public deleteCreditor(_id: any) {
     return this.http.delete(this.creditorUrl + '/' + _id);
   }
+
+  public purchaseRefNo(): Observable<any> {
+    return this.http.get(this.purchaseUrl + 'inv')
+  }
+  public salesInvNo(): Observable<any> {
+    return this.http.get(this.salesUrl + 'inv')
+  }
 }
