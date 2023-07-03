@@ -9,6 +9,8 @@ export class VoucherListComponent {
   @Input() invoices;
   @Input() listType: string;
 
+  format: string = 'dd-MM-y'
+
   @Output() editEvent = new EventEmitter();
   @Output() deleteEvent = new EventEmitter();
 

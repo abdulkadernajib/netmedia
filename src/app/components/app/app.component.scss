@@ -1,11 +1,19 @@
 .bgimg {
-    display: block;
+    // display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-image: url('../../../assets/images/Background-Graphics.jpg');
     background-size: cover;
-    // position: fixed;
+    z-index: -1;
+}
 
+.contnr {
+    overflow-y: auto;
+    height: 100vh;
+    padding: 60px;
 }
 
 .navbar {

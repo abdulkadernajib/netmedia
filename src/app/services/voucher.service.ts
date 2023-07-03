@@ -19,10 +19,10 @@ export class VoucherService {
   constructor(private http: HttpClient) { }
 
   public getCities(state): Observable<any> {
-    return this.http.get('/api/city/' + state)
+    return this.http.get(this.apiUrl + '/api/city/' + state)
   }
   public getStates(): Observable<any> {
-    return this.http.get('/api/state')
+    return this.http.get(this.apiUrl + '/api/state')
   }
 
 

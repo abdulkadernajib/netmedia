@@ -45,8 +45,12 @@ export class ProductService {
     return this.http.get(this.modelUrl + `/brand/${brandName}`)
   }
 
-  public getImeiList(modelId: any): Observable<any> {
-    return this.http.get('/api/imei/' + modelId);
+  public imeiList(modelId: string): Observable<any> {
+    return this.http.get(this.apiUrl + '/api/imei/' + modelId)
+  }
+
+  public unsoldImeiList(modelId: string): Observable<any> {
+    return this.http.get(this.apiUrl + '/api/unsoldimei/' + modelId)
   }
 
   public deleteMobile(_id: string) {

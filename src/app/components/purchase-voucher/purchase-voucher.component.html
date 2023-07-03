@@ -21,26 +21,25 @@
               <input formControlName="date" type="date" class="form-control">          
           </div>
         </div>
-        <div class="form-group">
+        <div class="row">
+        <div class="form-group col-10">
           <label for="creditor" class="form-label">Party Name</label>          
             <select formControlName="creditor" type="text" class="form-select" (change)="onSelectCreditor()">
               <option value="{{c._id}}" *ngFor="let c of masterCreditor">{{c.businessName}}</option>
             </select>
-        </div>        
+        </div> 
+        <div class="col-2">
+          <button disabled class="btn btn-light" >Add Creditor</button>
+        </div>
+      </div>       
           <div class="form-group">
             <label for="address" class="form-label">Billing Address</label>          
               <textarea formControlName="address" type="text" class="form-control"></textarea>          
           </div>                 
-        <div class="row">
-          <div class="form-group col-lg-4">
+          <div class="form-group">
             <label for="phone" class="form-label">Phone</label>          
               <input formControlName="phone" type="text" class="form-control">          
-          </div>
-          <div class="form-group col-lg-4">
-            <label for="phone2" class="form-label">Phone 2</label>          
-              <input formControlName="phone2" type="text" class="form-control">          
-          </div>
-        </div>      
+          </div>     
       </div>
     </div>
     <hr>
@@ -73,25 +72,27 @@
                     </select>
                   </div>
                   <div class="row">
-                    <p *ngIf="hsn[i]">HSN: {{hsn[i]}} </p>
+                    <p *ngIf="hsn[i]">HSN: {{hsn[i]}}</p>
                   </div>
               </td>
               <td><input  formControlName="imei" type="text" class="form-control"></td>
-              <td><input (change)="priceChange()"  formControlName="gst" type="number" class="form-control"></td>
-              <td><input (change)="priceChange()"  formControlName="amount" type="number" class="form-control"></td>
+              <td>
+                <div class="row">
+                  <input  formControlName="gst" type="number" class="form-control">
+                </div>
+                <div class="row">
+                  <p *ngIf="gst[i]">{{gst[i]}} </p>
+                </div>
+              </td>
+              <td><input (change)="priceChange(i)"  formControlName="amount" type="number" class="form-control"></td>
               <td><i (click)="deleteRow(i)" class="bi bi-trash"></i></td>
             </tr>
-
           </tbody>
-          <tfoot>
-            <tr>
-              <td><a (click)="addProduct()" class="btn btn-success"><i class="bi bi-plus-lg"></i></a></td>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>
-
+    <a *ngIf="PurchaseInvoiceForm.get('creditor').value" (click)="addProduct()" class="btn btn-success"><i class="bi bi-plus-lg"></i></a>
+    <hr>
     <div class="row">
       <div class="col-lg-4">
         <div class="form-group"><label for="" class="form-label">Summary Total</label>

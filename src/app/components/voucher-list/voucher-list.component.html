@@ -19,7 +19,7 @@
             <tr *ngFor="let inv of invoices">
                 <td>{{inv.voucherNo}} </td>
                 <td>{{inv.invoiceNo}} </td>
-                <td>{{inv.date}} </td>
+                <td>{{inv.date|date:format}} </td>
                 <td>{{inv.debtorName}} </td>
                 <td>{{inv.netTotal}} </td>
                 <td><a (click)="onEdit(inv)"><i class="bi bi-pencil-square"></i></a></td>
