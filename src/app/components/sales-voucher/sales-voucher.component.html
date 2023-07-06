@@ -1,9 +1,9 @@
 <form [formGroup]="SalesInvoiceForm" #salesForm (ngSubmit)="savePurchase(salesForm)" class="container">
     
-            <h2>{{pageTitle}}</h2>
+            <h2 style="text-align: center;margin-top: 0.5rem;">{{pageTitle}}</h2>
             <hr>
         <app-toast-notification #toast></app-toast-notification>
-  
+  <p>{{SalesInvoiceForm.value|json}} </p>
       <div class="row">
         <div class="col-lg-12">
           <div class="row">

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-11"><p><strong>{{listType|titlecase}}</strong></p></div>
+    <div class="col-11"><h3><strong>{{listType|titlecase}}</strong></h3></div>
     <div class="col-1"><button class="btn btn-primary" routerLink="/voucher/{{listType}}/new"><i class="bi bi-plus-square"></i></button></div>
 </div>
 <div class="row">
@@ -20,8 +20,8 @@
                 <td>{{inv.voucherNo}} </td>
                 <td>{{inv.invoiceNo}} </td>
                 <td>{{inv.date|date:format}} </td>
-                <td>{{inv.debtorName}} </td>
-                <td>{{inv.netTotal}} </td>
+                <td>{{inv.name}} </td>
+                <td>{{inv.netTotal |currency:'INR'}} </td>
                 <td><a (click)="onEdit(inv)"><i class="bi bi-pencil-square"></i></a></td>
                 <td><a  (click)="onDelete(inv._id)"><i class="bi bi-trash"></i></a></td>
             </tr>

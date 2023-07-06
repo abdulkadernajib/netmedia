@@ -24,5 +24,10 @@ body {
 }
 
 .container {
-    margin-top: 2rem;
+    width: 100%;
+    margin-top: 5rem;
+    overflow-y: auto;
+    height: 100vh;
+    border-radius: 1rem;
+
 }

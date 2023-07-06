@@ -1,3 +1,4 @@
+import { DebtorListComponent } from './../debtor-list/debtor-list.component';
 import { Component, ViewChild } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
@@ -85,20 +86,22 @@ export class SalesVoucherComponent {
 
     if (_id) {
       this.voucherService.getDebtorByID(_id).subscribe((debtor: any) => {
-        let address = `${debtor.debtor.address.address}, ${debtor.debtor.address.city}, ${debtor.debtor.address.pinCode}`
+        let deb = debtor.debtor
+        let address = `${deb.address.address}, ${deb.address.city}, ${deb.address.pinCode}`
 
         this.SalesInvoiceForm.get("address").setValue(address)
-        if (debtor.debtor.phone2) {
-          this.SalesInvoiceForm.get("phone").setValue(debtor.debtor.phone + ' / ' + debtor.debtor.phone2)
-        } else { this.SalesInvoiceForm.get("phone").setValue(debtor.debtor.phone) }
+        if (deb.phone2) {
+          this.SalesInvoiceForm.get("phone").setValue(deb.phone + ' / ' + deb.phone2)
+        } else { this.SalesInvoiceForm.get("phone").setValue(deb.phone) }
 
         this.SalesInvoiceForm.get("deliveryAddress").setValue(address)
-        if (debtor.debtor.phone2) {
-          this.SalesInvoiceForm.get("delPhone").setValue(debtor.debtor.phone + ' / ' + debtor.debtor.phone2)
-        } else { this.SalesInvoiceForm.get("delPhone").setValue(debtor.debtor.phone) }
+        if (deb.phone2) {
+          this.SalesInvoiceForm.get("delPhone").setValue(deb.phone + ' / ' + deb.phone2)
+        } else { this.SalesInvoiceForm.get("delPhone").setValue(deb.phone) }
 
-        if (debtor.debtor.address.state !== 'Maharashtra') {
+        if (deb.address.state !== 'Maharashtra') {
           this.SalesInvoiceForm.get("isIntraState").setValue(false)
+          this.isIntraState = false
         }
       })
       if (!this.invProducts.controls.length) {
@@ -159,7 +162,7 @@ export class SalesVoucherComponent {
       sumTotal += e.amount
       sumTax += e.gst
     })
-    console.log(sumTax);
+
 
     let netTotal = sumTotal + sumTax
     let tx = sumTax.toFixed(2)
