@@ -19,15 +19,20 @@ body {
     box-shadow: 5rem;
 }
 
+.btn-primary:hover {
+    background-color: rgb(0, 53, 199)
+}
+
 .form-label {
     margin-top: 0.5rem;
 }
 
 .container {
     width: 100%;
-    margin-top: 5rem;
+    margin: 60px 80px;
     overflow-y: auto;
     height: 100vh;
     border-radius: 1rem;
+    padding: 30px;
 
 }
