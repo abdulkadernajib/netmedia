@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Customer } from 'src/app/models/customer.model';
 import { VoucherService } from 'src/app/services/voucher.service';
 import { ToastNotificationComponent } from '../toast-notification/toast-notification.component';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-debtor-master',
@@ -46,21 +47,26 @@ export class DebtorMasterComponent {
       panNo: ''
     },
     closingBalance: null,
-
   }
+  headers
 
   constructor(private voucherService: VoucherService) {
 
   }
 
   ngOnInit() {
+    this.headers = new HttpHeaders(this.voucherService.headers)
   }
 
   onSubmit(form: NgForm) {
-    this.voucherService.addDebtor(form.value).subscribe(res => {
-      this.toast.showToast(res.toString());
-      form.reset();
+    this.voucherService.verifyGstin(this.customer.compliance.gstNo, this.headers).subscribe(res => {
+      console.log(res)
     })
+
+    // this.voucherService.addDebtor(form.value).subscribe(res => {
+    //   this.toast.showToast(res.toString());
+    //   form.reset();
+    // })
   }
 }
 

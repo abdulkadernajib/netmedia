@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { ProductService } from 'src/app/services/product.service'
 import { VoucherService } from 'src/app/services/voucher.service'
 import { ToastNotificationComponent } from '../toast-notification/toast-notification.component'
+import { Customer } from 'src/app/models/customer.model'
 
 @Component({
   selector: 'app-purchase-voucher',
@@ -22,6 +23,35 @@ export class PurchaseVoucherComponent {
   gst: any = []
   productGst: any = []
   isDisabled = true
+
+  // For Creditor Master
+
+  customer: Customer = {
+    businessName: '',
+    phone: '',
+    phone2: '',
+    email: '',
+    contactPerson: '',
+    address: {
+      address: '',
+      city: '',
+      state: '',
+      pinCode: null,
+    },
+    bankDetails: {
+      accountNo: null,
+      bankName: '',
+      ifsc: '',
+      branch: ''
+    },
+    compliance: {
+      gstNo: '',
+      gstType: '',
+      panNo: ''
+    },
+    closingBalance: null
+  }
+
 
   @ViewChild('toast') toast: ToastNotificationComponent
 
@@ -191,4 +221,34 @@ export class PurchaseVoucherComponent {
 
   }
 
+
+  // Creditors Master Creation
+
+  masterType: string = 'Creditor Master'
+
+  showModal() {
+    const modalDiv = document.getElementById('addMaster')
+
+    if (modalDiv != null) {
+      modalDiv.style.display = 'block'
+    }
+  }
+  closeModal() {
+    const modal = document.getElementById('addMaster')
+
+    if (modal != null) {
+      modal.style.display = 'none'
+    }
+  }
+
+
+  onCreditorSubmit(form: NgForm) {
+    this.voucherService.addCreditor(form.value).subscribe(res => {
+      this.toast.showToast(res.toString());
+      form.reset();
+      this.getCreditors()
+    })
+    document.getElementById('addMaster').style.display = 'none'
+
+  }
 }

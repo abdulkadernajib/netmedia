@@ -17,9 +17,8 @@ import { ToastNotificationComponent } from '../toast-notification/toast-notifica
   styleUrls: ['./creditor-master.component.scss']
 })
 export class CreditorMasterComponent {
-  masterType: string = 'Creditor Master'
-
   @ViewChild('toast') toast: ToastNotificationComponent;
+  masterType: string = 'Creditor Master'
 
   customer: Customer = {
     businessName: '',

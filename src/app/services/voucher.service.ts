@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Customer } from '../models/customer.model';
 import { environment } from 'src/environments/environment';
@@ -15,8 +15,17 @@ export class VoucherService {
   private purchaseUrl = this.apiUrl + '/api/purchase'
   private salesUrl = this.apiUrl + '/api/sales'
 
+  public headers = {
+    "Authorization": "Bearer 0ab31ef7392227173c6e8d34195e86d5eb0da1e9",
+    "client_id": "JarZChUcsytSBbnkpt"
+  }
+
 
   constructor(private http: HttpClient) { }
+
+  public verifyGstin(gstin: any, headers): Observable<any> {
+    return this.http.get('gstin=' + gstin, headers)
+  }
 
   public getCities(state): Observable<any> {
     return this.http.get(this.apiUrl + '/api/city/' + state)

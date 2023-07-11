@@ -87,7 +87,7 @@
             <td>{{m.color}}</td>
             <td>{{m.tPur? m.instock +'/'+ m.tPur:'-'}}</td>
               <td><a (click)="onEdit(m)"><i class="bi bi-pencil-square"></i></a></td>
-              <td><a  (click)="showDeleteModal(m._id)" ><i class="bi bi-trash"></i></a></td>
+              <td><a *ngIf="!m.tPur" (click)="showDeleteModal(m._id)" ><i class="bi bi-trash"></i></a></td>
           
           </tr>
         </tbody>

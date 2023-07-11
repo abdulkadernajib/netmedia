@@ -1,4 +1,5 @@
-<form [formGroup]="SalesInvoiceForm" #salesForm (ngSubmit)="savePurchase(salesForm)" class="container">
+<div class="container">
+<form [formGroup]="SalesInvoiceForm" #salesForm >
     
             <h2 style="text-align: center;margin-top: 0.5rem;">{{pageTitle}}</h2>
             <hr>
@@ -28,7 +29,7 @@
               </select>
             </div>
             <div class="col-2">
-              <button disabled class="btn btn-light" >Add Debtor</button>
+              <button class="btn btn-light" (click)="showModal()" >Add Debtor</button>
             </div>
           </div>
           <div class="row">
@@ -146,12 +147,27 @@
           </div>
         </div>
       </div>
-  
       
         <div class="col-lg-12">
-          <button class="btn btn-primary">Save</button>
+          <button class="btn btn-primary"(click)="savePurchase(salesForm)">Save</button>
         </div>
   </form>
+
+  <!-- popup modal -->
+<div class="modal" id="addMaster">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close" id="close"></button>
+      <div class="modal-body">
+        <app-customer-master [masterType]="masterType"  [customer]="customer" 
+        (submitForm)="onDebtorSubmit($event)">
+        </app-customer-master>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
   
   
   

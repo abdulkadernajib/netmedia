@@ -15,6 +15,7 @@ export class CustomerMasterComponent {
   @Input() cities;
 
   format: string = 'dd MMM, y | h:mm a'
+  gstTypeList: string[] = ['Regular', 'Composition']
 
   @Output() submitForm = new EventEmitter();
   @Output() updateEvent = new EventEmitter();

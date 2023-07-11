@@ -1,10 +1,11 @@
 import { DebtorListComponent } from './../debtor-list/debtor-list.component';
 import { Component, ViewChild } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { ProductService } from 'src/app/services/product.service'
 import { VoucherService } from 'src/app/services/voucher.service'
 import { ToastNotificationComponent } from '../toast-notification/toast-notification.component'
+import { Customer } from 'src/app/models/customer.model';
 
 @Component({
   selector: 'app-sales-voucher',
@@ -25,6 +26,33 @@ export class SalesVoucherComponent {
   gst: any = []
   productGst: any = []
   showCost: boolean = true
+
+  customer: Customer = {
+    businessName: '',
+    phone: '',
+    phone2: '',
+    email: '',
+    contactPerson: '',
+    address: {
+      address: '',
+      city: '',
+      state: '',
+      pinCode: null,
+    },
+    bankDetails: {
+      accountNo: null,
+      bankName: '',
+      ifsc: '',
+      branch: ''
+    },
+    compliance: {
+      gstNo: '',
+      gstType: '',
+      panNo: ''
+    },
+    closingBalance: null,
+
+  }
 
 
   @ViewChild('toast') toast: ToastNotificationComponent
@@ -228,6 +256,36 @@ export class SalesVoucherComponent {
 
   get invProducts() {
     return this.SalesInvoiceForm.get("details") as FormArray
+  }
+
+  // Creditors Master Creation
+
+  masterType: string = 'Debtor Master'
+
+  showModal() {
+    const modalDiv = document.getElementById('addMaster')
+
+    if (modalDiv != null) {
+      modalDiv.style.display = 'block'
+    }
+  }
+  closeModal() {
+    const modal = document.getElementById('addMaster')
+
+    if (modal != null) {
+      modal.style.display = 'none'
+    }
+  }
+
+
+  onDebtorSubmit(form: NgForm) {
+    this.voucherService.addDebtor(form.value).subscribe(res => {
+      this.toast.showToast(res.toString());
+      form.reset();
+      this.getDebtors()
+    })
+    document.getElementById('addMaster').style.display = 'none'
+
   }
 
 
